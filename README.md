@@ -1,29 +1,9 @@
-# vue3-cms
+# vue3+ts+axios+router+vuex 模板
 
-## Project setup
+## 安装依赖
 
 ```
 yarn install
 ```
 
-### Compiles and hot-reloads for development
-
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-
-```
-yarn build
-```
-
-### Lints and fixes files
-
-```
-yarn lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## 优雅的写代码
