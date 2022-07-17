@@ -26,24 +26,31 @@ class XLRequest {
     )
     this.instance.interceptors.response.use(
       (res) => {
-        return res
+        return res.data
       },
       (err) => {
         return err
       }
     )
   }
-  request(config: XLRequestConfig) {
-    // 提供单次请求的拦截器
-    // 这里是自己实现，不是同个axios添加到实力或者全局
-    if (config.interceptors?.requestInterceptors) {
-      config = config.interceptors.requestInterceptors(config)
-    }
-    this.instance.request(config).then((res) => {
-      if (config.interceptors?.responseInterceptors) {
-        res = config.interceptors.responseInterceptors(res)
+  request<T>(config: XLRequestConfig<T>) {
+    return new Promise<T>((resolve, reject) => {
+      // 提供单次请求的拦截器
+      // 这里是自己实现，不是同个axios添加到实力或者全局
+      if (config.interceptors?.requestInterceptors) {
+        config = config.interceptors.requestInterceptors(config)
       }
-      console.log(res)
+      this.instance
+        .request<any, T>(config)
+        .then((res) => {
+          if (config.interceptors?.responseInterceptors) {
+            res = config.interceptors.responseInterceptors(res)
+          }
+          resolve(res)
+        })
+        .catch((err) => {
+          reject(err)
+        })
     })
   }
 }
