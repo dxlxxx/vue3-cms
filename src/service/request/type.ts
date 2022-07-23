@@ -8,6 +8,7 @@ interface Interceptors<T = AxiosResponse> {
 }
 interface XLRequestConfig<T = AxiosResponse> extends AxiosRequestConfig {
   interceptors?: Interceptors<T>
+  isShowLoading?: boolean
 }
 
 export { XLRequestConfig, Interceptors }

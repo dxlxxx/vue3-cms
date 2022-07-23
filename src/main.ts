@@ -1,45 +1,18 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import { xlRequest } from './service'
-import store from './store'
+import store, { key, _initState } from './store'
+import 'element-plus/dist/index.css'
+// 初始化的css
+import 'normalize.css'
+import './assets/styles/index.less'
+import { registerIcon, registerProperties } from './global'
 
-interface ResType {
-  data: DataType
-  returnCode: string
-  success: boolean
-}
-interface DataType {
-  banner: Itme
-  dKeyword: Itme
-  keywords: Itme
-  recommend: Itme
-}
-interface Itme {
-  context: { currentTime: number }
-  isEnd: boolean
-  list: ArrayT[]
-  nextPage: number
-}
-interface ArrayT {
-  acm: string
-  height: number
-  height923: number
-  image: string
-  image923: string
-  link: string
-  title: string
-  width: number
-  width923: number
-}
+_initState()
 
-xlRequest
-  .request<ResType>({
-    url: '/home/multidata',
-    method: 'get'
-  })
-  .then((res) => {
-    console.log(res.data)
-    console.log(res.data.banner.context.currentTime)
-  })
-createApp(App).use(store).use(router).mount('#app')
+createApp(App)
+  .use(store, key)
+  .use(router)
+  .use(registerIcon)
+  .use(registerProperties)
+  .mount('#app')

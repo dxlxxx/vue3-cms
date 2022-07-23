@@ -1,23 +1,27 @@
+import { localCache } from '@/utils'
 import XLRequest from './request'
-import { BASE_URL } from './request/config'
+import { BASE_URL, TIME_OUT } from './request/config'
 
 const xlRequest = new XLRequest({
   baseURL: BASE_URL,
+  timeout: TIME_OUT,
   // 实例的拦截器
   interceptors: {
     requestInterceptors(config) {
-      console.log('请求实例的拦截器')
+      const token = localCache.getCache('token')
+      if (token && config.headers) {
+        config.headers.Authorization = `Bearer ${token}`
+      }
       return config
     },
     requestInterceptorsCatch(err) {
-      console.log(err, '请求错误实例的拦截器')
+      return err
     },
     responseInterceptors(res) {
-      console.log(res, '响应成功实例的拦截器')
       return res
     },
     responseInterceptorsCatch(err) {
-      console.log(err, '响应错误实例的拦截器')
+      return err
     }
   }
 })
