@@ -53,7 +53,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps, PropType, defineEmits } from 'vue'
+import { defineProps, PropType, defineEmits, ref, watch } from 'vue'
 import { IFormItem } from '..'
 
 const props = defineProps({
@@ -85,16 +85,39 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['updata:model'])
+const emit = defineEmits(['update:modelValue'])
 
-const value = computed({
+/* const value = computed({
   get: () => {
     return props.modelValue
   },
   set: (newValue) => {
-    emit('updata:model', newValue)
+    console.log(1111)
+
+    emit('update:model', newValue)
   }
-})
+}) */
+
+const value = ref({ ...props.modelValue })
+
+watch(
+  value,
+  (newValue) => {
+    emit('update:modelValue', newValue)
+  },
+  {
+    deep: true
+  }
+)
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    value.value = newValue
+  },
+  {
+    deep: true
+  }
+)
 </script>
 
 <style scoped lang="less">

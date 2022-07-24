@@ -7,7 +7,7 @@
     />
     <page-content
       :contentConfig="contentTableConfig"
-      pageName="user"
+      pageName="users"
       ref="pageContentRef"
     />
   </div>

@@ -28,5 +28,6 @@ export const contentTableConfig = {
       children: 'children'
     }
   },
-  showFooter: false
+  showFooter: false,
+  addType: '新增菜单'
 }

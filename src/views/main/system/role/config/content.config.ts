@@ -18,5 +18,6 @@ export const contentTableConfig = {
     { label: '操作', minWidth: '120', slotName: 'handler' }
   ],
   showIndexColumn: true,
-  showSelectColumn: true
+  showSelectColumn: true,
+  addType: '新增角色'
 }

@@ -4,7 +4,7 @@ import {
   requestUserMenusByRoleId
 } from '@/service/login'
 import { IAccount } from '@/service/login/type'
-import { localCache, mapMenusToRoutes } from '@/utils'
+import { localCache, mapMenusToRoutes, mapMenuToPermissions } from '@/utils'
 import { Module } from 'vuex'
 import IRootState from '../type'
 import ILoginState from './types'
@@ -16,7 +16,8 @@ const loginModule: Module<ILoginState, IRootState> = {
     return {
       token: '',
       userInfo: {},
-      userMenus: []
+      userMenus: [],
+      permissions: []
     }
   },
   mutations: {
@@ -32,8 +33,10 @@ const loginModule: Module<ILoginState, IRootState> = {
       state.userMenus = userMenus
       localCache.setCache('userMenus', userMenus)
       const routes = mapMenusToRoutes(userMenus)
-      // 注册
+      // 动态注册路由
       routes.forEach((route) => router.addRoute('main', route))
+      // 权限
+      state.permissions = mapMenuToPermissions(userMenus)
     }
   },
   actions: {

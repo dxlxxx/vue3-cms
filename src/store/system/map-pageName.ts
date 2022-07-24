@@ -1,6 +1,8 @@
 const mapPageName = {
-  user: '/users/list',
-  role: '/role/list'
+  users: '/users/list',
+  role: '/role/list',
+  goods: '/goods/list',
+  menu: '/menu/list'
 }
 
 export default mapPageName

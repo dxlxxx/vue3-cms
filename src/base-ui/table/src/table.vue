@@ -13,6 +13,7 @@
       style="width: 100%"
       border
       @selection-change="handleSelect"
+      v-bind="childrenProps"
     >
       <el-table-column
         v-if="showSelectColumn"
@@ -28,7 +29,7 @@
         align="center"
       />
       <template v-for="propItem in propList" :key="propItem.prop">
-        <el-table-column v-bind="propItem" align="center">
+        <el-table-column v-bind="propItem" show-overflow-tooltip align="center">
           <!-- 拿到element plus 暴露的属性 -->
           <template #default="scope">
             <!-- 自己定义一个插槽  默认值-->
@@ -40,12 +41,14 @@
         </el-table-column>
       </template>
     </el-table>
-    <div class="footer">
+    <div class="footer" v-if="showFooter">
       <slot name="footer">
         <el-pagination
-          :page-sizes="[100, 200, 300, 400]"
+          v-model:current-page="currentPage"
+          v-model:page-size="pageSize"
+          :page-sizes="[10, 20, 30]"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="400"
+          :total="listCount"
         />
       </slot>
     </div>
@@ -53,36 +56,73 @@
 </template>
 
 <script lang="ts" setup>
-import { defineEmits, PropType, defineProps } from 'vue'
+import { defineEmits, PropType, defineProps, computed } from 'vue'
 
-const emit = defineEmits(['changeSelect'])
+const emit = defineEmits(['changeSelect', 'update:pageInfo'])
 
-defineProps({
+const props = defineProps({
   listData: {
     type: Array,
-    requried: true
+    required: true
+  },
+  listCount: {
+    type: Number
   },
   propList: {
-    type: Array as PropType<any[]>,
-    requried: true
+    type: Array as PropType<any[]>
   },
   showIndexColumn: {
     type: Boolean,
-    defalut: false
+    default: false
   },
   showSelectColumn: {
     type: Boolean,
-    defalut: false
+    default: false
   },
   title: {
     type: String,
-    defalut: ''
+    default: ''
+  },
+  pageInfo: {
+    type: Object,
+    default: () => ({
+      currentPage: 1,
+      pageSize: 10
+    })
+  },
+  childrenProps: {
+    type: Object,
+    default: () => null
+  },
+  showFooter: {
+    type: Boolean,
+    default: true
   }
 })
 
 const handleSelect = (selection: any) => {
   emit('changeSelect', selection)
 }
+
+// 分页
+
+const currentPage = computed({
+  get() {
+    return props.pageInfo.currentPage
+  },
+  set(newValue) {
+    emit('update:pageInfo', { ...props.pageInfo, currentPage: newValue })
+  }
+})
+
+const pageSize = computed({
+  get() {
+    return props.pageInfo.pageSize
+  },
+  set(newValue) {
+    emit('update:pageInfo', { ...props.pageInfo, pageSize: newValue })
+  }
+})
 </script>
 
 <style scoped lang="less">

@@ -4,6 +4,7 @@ import { RouteRecordRaw } from 'vue-router'
 export let firstRoute: any = null
 
 // 生成动态路由
+
 export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   const routes: RouteRecordRaw[] = []
   // 默认加载全部的路由但不注册
@@ -59,4 +60,24 @@ export function mapPathToMenu(userMenus: any[], path: string): IBreadcrumb[] {
   _recurseGetMenu(userMenus, path)
 
   return breadcrumbs
+}
+
+// 获取权限列表
+
+export function mapMenuToPermissions(userMenus: any[]): any[] {
+  const permissions: any[] = []
+
+  const _recurseGetPermissions = (menus: any[]) => {
+    for (const menu of menus) {
+      if (menu.type === 1 || menu.type === 2) {
+        _recurseGetPermissions(menu.children ?? [])
+      } else if (menu.type === 3) {
+        permissions.push(menu.permission)
+      }
+    }
+  }
+
+  _recurseGetPermissions(userMenus)
+
+  return permissions
 }
