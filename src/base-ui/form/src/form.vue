@@ -7,7 +7,11 @@
       <el-row>
         <template v-for="item in formItems" :key="item.label">
           <el-col v-bind="colLayout">
-            <el-form-item :label="item.label" :style="itemStyle">
+            <el-form-item
+              :label="item.label"
+              :style="itemStyle"
+              v-if="!item.isHidden"
+            >
               <template
                 v-if="item.type === 'input' || item.type === 'password'"
               >
@@ -86,17 +90,6 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:modelValue'])
-
-/* const value = computed({
-  get: () => {
-    return props.modelValue
-  },
-  set: (newValue) => {
-    console.log(1111)
-
-    emit('update:model', newValue)
-  }
-}) */
 
 const value = ref({ ...props.modelValue })
 

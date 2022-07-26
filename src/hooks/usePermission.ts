@@ -6,6 +6,7 @@ export default function usePermission(
 ): boolean {
   const store = useStore()
   const permissions = store.state.loginModule.permissions
+
   return !!permissions.find((permission) => {
     return permission === `system:${pageName}:${handlerName}`
   })

@@ -3,7 +3,7 @@ export interface IAccount {
   password: string
 }
 
-export interface IDateType<T = any> {
+export interface IDataType<T = any> {
   code: string
   data: T
 }

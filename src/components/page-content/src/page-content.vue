@@ -8,7 +8,7 @@
     >
       <!-- 固定插槽 -->
       <template #headerHandler>
-        <el-button v-if="isCreate" type="primary">
+        <el-button v-if="isCreate" type="primary" @click="handleNewClick">
           {{ contentConfig.addType }}
         </el-button>
       </template>
@@ -31,7 +31,9 @@
       </template>
 
       <template #handler="{ row }">
-        <el-link :icon="Edit" v-if="isUpdate">编辑</el-link>
+        <el-link :icon="Edit" v-if="isUpdate" @click="handleEditClick(row)"
+          >编辑</el-link
+        >
         <el-link :icon="Delete" v-if="isDelete" @click="hanleDelete(row)"
           >删除</el-link
         >
@@ -49,7 +51,14 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, computed, defineExpose, ref, watch } from 'vue'
+import {
+  defineProps,
+  computed,
+  defineExpose,
+  ref,
+  watch,
+  defineEmits
+} from 'vue'
 import XlTabel from '@/base-ui/table'
 import { useStore } from '@/store'
 import { Delete, Edit } from '@element-plus/icons-vue'
@@ -65,6 +74,8 @@ const props = defineProps({
     required: true
   }
 })
+
+const emit = defineEmits(['handleNewClickEmit', 'handleEditClick'])
 
 const pageInfo = ref({
   currentPage: 1,
@@ -126,6 +137,18 @@ const hanleDelete = (row: any) => {
     pageName: props.pageName,
     id: row.id
   })
+}
+
+// 新建
+
+const handleNewClick = () => {
+  emit('handleNewClickEmit')
+}
+
+// 编辑
+
+const handleEditClick = (row: any) => {
+  emit('handleEditClick', row)
 }
 
 defineExpose({

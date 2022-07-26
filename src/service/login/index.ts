@@ -1,5 +1,5 @@
 import { xlRequest } from '..'
-import { IAccount, IDateType, ILoginResultType } from './type'
+import { IAccount, IDataType, ILoginResultType } from './type'
 
 enum LoginAPi {
   AccountLogin = '/login',
@@ -8,7 +8,7 @@ enum LoginAPi {
 }
 
 export function accountLoginRequest(account: IAccount) {
-  return xlRequest.post<IDateType<ILoginResultType>>({
+  return xlRequest.post<IDataType<ILoginResultType>>({
     url: LoginAPi.AccountLogin,
     data: account,
     isShowLoading: false
@@ -16,14 +16,14 @@ export function accountLoginRequest(account: IAccount) {
 }
 
 export function requestUserInfoById(id: number) {
-  return xlRequest.get<IDateType<any>>({
+  return xlRequest.get<IDataType<any>>({
     url: LoginAPi.UserInfo + id,
     isShowLoading: false
   })
 }
 
 export function requestUserMenusByRoleId(roleId: number) {
-  return xlRequest.get<IDateType<any>>({
+  return xlRequest.get<IDataType<any>>({
     url: LoginAPi.UserMenus + roleId + '/menu'
   })
 }

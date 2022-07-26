@@ -1,4 +1,9 @@
-import { deletePageData, getPageList } from '@/service/main/system'
+import {
+  createPageData,
+  deletePageData,
+  editPageData,
+  getPageList
+} from '@/service/main/system'
 import { firstUpperCase } from '@/utils'
 import { Module } from 'vuex'
 import IRootState from '../type'
@@ -57,6 +62,36 @@ const systemModule: Module<ISystemState, IRootState> = {
       const { pageName, id } = payload
       const url = `/${pageName}/${id}`
       await deletePageData(url)
+      dispatch('getPageListAction', {
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      })
+    },
+    createPageDataAction: async ({ dispatch }, payload: any) => {
+      // 1.创建数据的请求
+      const { pageName, newData } = payload
+      const pageUrl = `/${pageName}`
+      await createPageData(pageUrl, newData)
+
+      // 2.请求最新的数据
+      dispatch('getPageListAction', {
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      })
+    },
+    editPageDataAction: async ({ dispatch }, payload: any) => {
+      // 1.编辑数据的请求
+      const { pageName, editData, id } = payload
+      const pageUrl = `/${pageName}/${id}`
+      await editPageData(pageUrl, editData)
+
+      // 2.请求最新的数据
       dispatch('getPageListAction', {
         pageName,
         queryInfo: {

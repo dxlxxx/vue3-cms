@@ -41,10 +41,13 @@ const loginModule: Module<ILoginState, IRootState> = {
   },
   actions: {
     // 登录并保存token
-    accountLoginAction: async ({ commit }, payload: IAccount) => {
+    accountLoginAction: async ({ commit, dispatch }, payload: IAccount) => {
       const loginResult = await accountLoginRequest(payload)
       const { id, token } = loginResult.data
+      // 拿到token
       commit('changeToken', token)
+      // 初始化角色列表 调用root
+      dispatch('getInitialDataAction', null, { root: true })
       // 保存用户信息
       const userResult = await requestUserInfoById(id)
       const userInfo = userResult.data
@@ -56,12 +59,13 @@ const loginModule: Module<ILoginState, IRootState> = {
       // 跳转
       router.push('/main')
     },
-    _initLoginState: ({ commit }) => {
+    _initLoginState: ({ commit, dispatch }) => {
       const token = localCache.getCache('token')
       const userInfo = localCache.getCache('userInfo')
       const userMenus = localCache.getCache('userMenus')
       if (token) {
         commit('changeToken', token)
+        dispatch('getInitialDataAction', null, { root: true })
       }
       if (userInfo) {
         commit('changeUserInfo', userInfo)

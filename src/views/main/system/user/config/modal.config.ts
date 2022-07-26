@@ -30,14 +30,14 @@ export const modalConfig = {
       type: 'select',
       label: '选择部门',
       placeholder: '请选择部门',
-      options: []
+      options: [] as any[]
     },
     {
       field: 'roleId',
       type: 'select',
       label: '选择角色',
       placeholder: '请选择角色',
-      options: []
+      options: [] as any[]
     }
   ],
   colLayout: { span: 24 },
