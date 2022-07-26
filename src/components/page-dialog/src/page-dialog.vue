@@ -5,29 +5,27 @@
       v-model="formData"
       v-model:dialogVisible="dialogVisible"
       @handleComfirm="handleComfirm"
-    ></xl-dialog>
+      ><slot></slot>
+    </xl-dialog>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { defineProps, ref, defineExpose, watch } from 'vue'
+import { defineProps, ref, defineExpose, watch, withDefaults } from 'vue'
 import XlDialog from '@/base-ui/dialog'
 import store from '@/store'
 
-const props = defineProps({
-  modalConfig: {
-    type: Object,
-    required: true
-  },
-  _initFormData: {
-    type: Object,
-    default: () => ({})
-  },
-  pageName: {
-    type: String,
-    required: true
+const props = withDefaults(
+  defineProps<{
+    modalConfig: any
+    _initFormData: any
+    pageName: string
+    otherInfo?: any
+  }>(),
+  {
+    otherInfo: () => ({})
   }
-})
+)
 
 const _defaultData: any = {}
 
@@ -52,13 +50,13 @@ const handleComfirm = () => {
   if (Object.keys(props._initFormData).length === 0) {
     store.dispatch('systemModule/createPageDataAction', {
       pageName: props.pageName,
-      newData: formData.value
+      newData: { ...formData.value, ...props.otherInfo }
     })
   } else {
     store.dispatch('systemModule/editPageDataAction', {
       pageName: props.pageName,
       id: props._initFormData.id,
-      editData: formData.value
+      editData: { ...formData.value, ...props.otherInfo }
     })
   }
 }

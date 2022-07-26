@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import PageDialog from '@/components/page-dialog'
 
-type callbackFn = () => any
+type callbackFn = (row?: any) => any
 
 export default function usePageDialog(
   cbNewClick?: callbackFn,
@@ -24,7 +24,7 @@ export default function usePageDialog(
       dialogRef.value.dialogVisible = true
       _initFormData.value = row
     }
-    cbEditClick && cbEditClick()
+    cbEditClick && cbEditClick(row)
   }
 
   return [dialogRef, _initFormData, handleNewClick, handleEditClick]

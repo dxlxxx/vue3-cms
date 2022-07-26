@@ -11,15 +11,15 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, PropType } from 'vue'
+import { defineProps, withDefaults } from 'vue'
 import { IBreadcrumb } from './types'
 
-defineProps({
-  breadcrumbs: {
-    type: Array as PropType<IBreadcrumb[] | null>,
-    default: () => []
-  }
-})
+withDefaults(
+  defineProps<{
+    breadcrumbs: IBreadcrumb[]
+  }>(),
+  { breadcrumbs: () => [] }
+)
 </script>
 
 <style scoped lang="less"></style>

@@ -1,6 +1,4 @@
-import { IForm } from '@/base-ui/form'
-
-export const modalConfig: IForm = {
+export const modalConfig = {
   formItems: [
     {
       field: 'name',
@@ -16,5 +14,6 @@ export const modalConfig: IForm = {
     }
   ],
   colLayout: { span: 24 },
-  itemStyle: {}
+  itemStyle: {},
+  title: '新增角色'
 }

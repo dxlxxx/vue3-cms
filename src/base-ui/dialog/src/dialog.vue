@@ -2,12 +2,13 @@
   <div class="dialog">
     <el-dialog
       v-model="visible"
-      title="新增用户"
+      :title="modalConfig.title"
       width="30%"
       center
       destroy-on-close
     >
       <xl-form v-model="value" v-bind="modalConfig"></xl-form>
+      <slot></slot>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="visible = false">取消</el-button>
@@ -19,24 +20,14 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, computed, defineEmits } from 'vue'
+import { defineProps, computed, defineEmits, withDefaults } from 'vue'
 import XlForm from '@/base-ui/form'
 
-const props = defineProps({
-  modalConfig: {
-    type: Object,
-    required: true
-  },
-  modelValue: {
-    type: Object,
-    default: () => ({})
-  },
-  dialogVisible: {
-    type: Boolean,
-    default: false,
-    required: true
-  }
-})
+const props = defineProps<{
+  modalConfig: any
+  modelValue: any
+  dialogVisible: boolean
+}>()
 
 const emits = defineEmits([
   'update:modelValue',

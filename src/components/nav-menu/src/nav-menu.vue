@@ -43,16 +43,18 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps } from 'vue'
+import { computed, defineProps, withDefaults } from 'vue'
 import { useStore } from '@/store'
 import { useRoute } from 'vue-router'
 
-defineProps({
-  collapse: {
-    type: Boolean,
-    value: true
+withDefaults(
+  defineProps<{
+    collapse?: boolean
+  }>(),
+  {
+    collapse: true
   }
-})
+)
 
 const store = useStore()
 const userMenus = computed(() => store.state.loginModule.userMenus)

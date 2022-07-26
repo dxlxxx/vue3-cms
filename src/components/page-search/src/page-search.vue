@@ -22,12 +22,9 @@ import XlForm from '@/base-ui/form'
 import { Search, Refresh } from '@element-plus/icons-vue'
 
 const emit = defineEmits(['resetEmit', 'searchEmit'])
-const props = defineProps({
-  searchFormConfig: {
-    type: Object,
-    required: true
-  }
-})
+const props = defineProps<{
+  searchFormConfig: any
+}>()
 
 // 动态生成ref
 const formObj: any = {}

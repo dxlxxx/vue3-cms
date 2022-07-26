@@ -57,37 +57,30 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, PropType, defineEmits, ref, watch } from 'vue'
+import { defineProps, withDefaults, defineEmits, ref, watch } from 'vue'
 import { IFormItem } from '..'
 
-const props = defineProps({
-  formItems: {
-    type: Array as PropType<IFormItem[]>,
-    default: () => []
-  },
-  labelWidth: {
-    type: String,
-    default: '100px'
-  },
-  itemStyle: {
-    type: Object,
-    default: () => ({ padding: '10px 40px' })
-  },
-  colLayout: {
-    type: Object,
-    default: () => ({
+const props = withDefaults(
+  defineProps<{
+    formItems?: IFormItem[]
+    labelWidth?: string
+    itemStyle?: any
+    colLayout?: any
+    modelValue: any
+  }>(),
+  {
+    formItems: () => [],
+    labelWidth: '100px',
+    itemStyle: () => ({ padding: '10px 40px' }),
+    colLayout: () => ({
       xl: 6, // >1920px 4个
       lg: 8,
       md: 12,
       sm: 24,
       xs: 24
     })
-  },
-  modelValue: {
-    type: Object,
-    required: true
   }
-})
+)
 
 const emit = defineEmits(['update:modelValue'])
 

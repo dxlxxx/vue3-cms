@@ -56,49 +56,35 @@
 </template>
 
 <script lang="ts" setup>
-import { defineEmits, PropType, defineProps, computed } from 'vue'
+import { defineEmits, withDefaults, defineProps, computed } from 'vue'
 
 const emit = defineEmits(['changeSelect', 'update:pageInfo'])
 
-const props = defineProps({
-  listData: {
-    type: Array,
-    required: true
-  },
-  listCount: {
-    type: Number
-  },
-  propList: {
-    type: Array as PropType<any[]>
-  },
-  showIndexColumn: {
-    type: Boolean,
-    default: false
-  },
-  showSelectColumn: {
-    type: Boolean,
-    default: false
-  },
-  title: {
-    type: String,
-    default: ''
-  },
-  pageInfo: {
-    type: Object,
-    default: () => ({
+const props = withDefaults(
+  defineProps<{
+    listData: any[]
+    listCount: number
+    propList: any[]
+    showIndexColumn?: boolean
+    showSelectColumn?: boolean
+    title?: string
+    pageInfo?: {
+      currentPage: number
+      pageSize: number
+    }
+    childrenProps?: any
+    showFooter?: boolean
+  }>(),
+  {
+    showIndexColumn: false,
+    showSelectColumn: false,
+    showFooter: true,
+    pageInfo: () => ({
       currentPage: 1,
       pageSize: 10
     })
-  },
-  childrenProps: {
-    type: Object,
-    default: () => null
-  },
-  showFooter: {
-    type: Boolean,
-    default: true
   }
-})
+)
 
 const handleSelect = (selection: any) => {
   emit('changeSelect', selection)

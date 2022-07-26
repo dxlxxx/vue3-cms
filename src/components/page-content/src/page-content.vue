@@ -64,16 +64,10 @@ import { useStore } from '@/store'
 import { Delete, Edit } from '@element-plus/icons-vue'
 import usePermission from '@/hooks/usePermission'
 
-const props = defineProps({
-  contentConfig: {
-    type: Object,
-    required: true
-  },
-  pageName: {
-    type: String,
-    required: true
-  }
-})
+const props = defineProps<{
+  contentConfig: any
+  pageName: string
+}>()
 
 const emit = defineEmits(['handleNewClickEmit', 'handleEditClick'])
 

@@ -3,6 +3,7 @@ import { createStore, useStore as baseUseStore, Store } from 'vuex'
 import IRootState, { IUseStore } from './type'
 import loginModule from './login'
 import systemModule from './system'
+import dashboardModule from './analysis'
 import { getPageList } from '@/service/main/system'
 
 export const key: InjectionKey<Store<IUseStore>> = Symbol()
@@ -11,7 +12,8 @@ const store = createStore<IRootState>({
   state() {
     return {
       entireDepartment: [],
-      entireRole: []
+      entireRole: [],
+      entireMenu: []
     }
   },
   getters: {},
@@ -21,6 +23,9 @@ const store = createStore<IRootState>({
     },
     changeEntireRole(state, list) {
       state.entireRole = list
+    },
+    changeEntireMenu(state, list) {
+      state.entireMenu = list
     }
   },
   actions: {
@@ -38,14 +43,22 @@ const store = createStore<IRootState>({
       })
       const { list: roleList } = roleResult.data
 
+      const menuResult = await getPageList('/menu/list', {
+        offset: 0,
+        size: 1000
+      })
+      const { list: menuList } = menuResult.data
+
       // 2.保存数据
       commit('changeEntireDepartment', departmentList)
       commit('changeEntireRole', roleList)
+      commit('changeEntireMenu', menuList)
     }
   },
   modules: {
     loginModule,
-    systemModule
+    systemModule,
+    dashboardModule
   }
 })
 

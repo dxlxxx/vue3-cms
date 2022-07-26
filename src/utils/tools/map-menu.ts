@@ -81,3 +81,22 @@ export function mapMenuToPermissions(userMenus: any[]): any[] {
 
   return permissions
 }
+
+export function mapMenuToTree(userMenus: any[]): any[] {
+  const trees: number[] = []
+
+  const _recurseGetTree = (menus: any[]) => {
+    for (const menu of menus) {
+      if (menu.children) {
+        _recurseGetTree(menu.children)
+      } else {
+        trees.push(menu.id)
+      }
+    }
+  }
+
+  _recurseGetTree(userMenus)
+  console.log(trees)
+
+  return trees
+}

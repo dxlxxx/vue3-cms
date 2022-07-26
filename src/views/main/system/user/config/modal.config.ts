@@ -41,5 +41,6 @@ export const modalConfig = {
     }
   ],
   colLayout: { span: 24 },
-  itemStyle: {}
+  itemStyle: {},
+  title: '新增用户'
 }
