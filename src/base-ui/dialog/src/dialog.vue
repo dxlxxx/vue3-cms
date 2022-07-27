@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, computed, defineEmits, withDefaults } from 'vue'
+import { defineProps, computed, defineEmits } from 'vue'
 import XlForm from '@/base-ui/form'
 
 const props = defineProps<{
